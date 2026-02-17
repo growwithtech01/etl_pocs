@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema name="catalog" version="1.0">
+
+  <uniqueKey>id</uniqueKey>
+
+  <!-- ========= FIELD TYPES ========= -->
+
+  <fieldType name="string" class="solr.StrField"/>
+  <fieldType name="plong" class="solr.LongPointField"/>
+  <fieldType name="pdouble" class="solr.DoublePointField"/>
+
+  <!-- ========= FIELDS ========= -->
+
+  <field name="id"
+         type="string"
+         indexed="true"
+         stored="true"
+         required="true"
+         multiValued="false"/>
+
+  <field name="name"
+         type="string"
+         indexed="true"
+         stored="true"
+         multiValued="false"/>
+
+  <field name="category"
+         type="string"
+         indexed="true"
+         stored="true"
+         multiValued="false"/>
+
+  <field name="brand"
+         type="string"
+         indexed="true"
+         stored="true"
+         multiValued="false"/>
+
+  <field name="price"
+         type="pdouble"
+         indexed="true"
+         stored="true"
+         multiValued="false"/>
+
+  <!-- REQUIRED for SolrCloud -->
+  <field name="_version_"
+         type="plong"
+         indexed="true"
+         stored="true"
+         docValues="true"
+         multiValued="false"/>
+
+</schema>

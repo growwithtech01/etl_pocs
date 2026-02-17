@@ -1,0 +1,11 @@
+<config>
+
+  <luceneMatchVersion>9.10.1</luceneMatchVersion>
+
+  <schemaFactory class="ManagedIndexSchemaFactory">
+    <bool name="mutable">true</bool>
+  </schemaFactory>
+  <requestHandler name="/select" class="solr.SearchHandler"/>
+
+
+</config>

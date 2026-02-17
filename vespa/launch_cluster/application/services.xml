@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services version="1.0">
+
+  <admin version="2.0">
+    <configservers>
+      <configserver hostalias="config"/>
+    </configservers>
+
+    <adminserver hostalias="config"/>
+
+    <cluster-controllers>
+      <cluster-controller hostalias="content"/>
+    </cluster-controllers>
+  </admin>
+
+  <container id="query" version="1.0">
+    <search/>
+    <nodes>
+      <node hostalias="query"/>
+    </nodes>
+  </container>
+
+  <container id="feed" version="1.0">
+    <document-api/>
+    <nodes>
+      <node hostalias="feed"/>
+    </nodes>
+  </container>
+
+  <content id="catalog-content" version="1.0">
+    <redundancy>1</redundancy>
+    <documents>
+      <document type="catalog" mode="index"/>
+    </documents>
+    <nodes>
+      <node hostalias="content" distribution-key="0"/>
+    </nodes>
+  </content>
+
+</services>

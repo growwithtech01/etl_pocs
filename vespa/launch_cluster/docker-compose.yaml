@@ -1,0 +1,86 @@
+version: "3.8"
+
+networks:
+  vespa-network:
+    name: vespa-network
+    driver: bridge
+
+volumes:
+  vespa-config-data:
+  vespa-content-data:
+
+services:
+
+  vespa-config:
+    image: vespaengine/vespa:8.640.27
+    container_name: vespa-config
+    hostname: vespa-config.vespa-network
+    networks:
+      - vespa-network
+    environment:
+      - VESPA_CONFIGSERVERS=vespa-config.vespa-network
+      - VESPA_HOSTNAME=vespa-config.vespa-network
+    ports:
+      - "19071:19071"
+      - "19050:19050"
+    volumes:
+      - vespa-config-data:/opt/vespa/var
+    command: configserver,services 
+
+  vespa-content:
+    image: vespaengine/vespa:8.640.27
+    container_name: vespa-content
+    hostname: vespa-content.vespa-network
+    networks:
+      - vespa-network
+    environment:
+      - VESPA_CONFIGSERVERS=vespa-config.vespa-network
+      - VESPA_HOSTNAME=vespa-content.vespa-network
+    volumes:
+      - vespa-content-data:/opt/vespa/var
+    depends_on:
+      - vespa-config
+    command: services
+
+  vespa-query:
+    image: vespaengine/vespa:8.640.27
+    container_name: vespa-query
+    hostname: vespa-query.vespa-network
+    networks:
+      - vespa-network
+    environment:
+      - VESPA_CONFIGSERVERS=vespa-config.vespa-network
+      - VESPA_HOSTNAME=vespa-query.vespa-network
+    depends_on:
+      - vespa-config
+    ports:
+      - "8080:8080"
+    command: services
+
+  vespa-feed:
+    image: vespaengine/vespa:8.640.27
+    container_name: vespa-feed
+    hostname: vespa-feed.vespa-network
+    networks:
+      - vespa-network
+    environment:
+      - VESPA_CONFIGSERVERS=vespa-config.vespa-network
+      - VESPA_HOSTNAME=vespa-feed.vespa-network
+    depends_on:
+      - vespa-config
+    ports:
+      - "8081:8080"
+    command: services
+
+  vespana:
+    image: vispana/vispana:latest
+    container_name: vespana
+    ports:
+      - "8082:4000"
+    environment:
+      - VESPANA_VESPA_HOST=http://vespa-query:8080
+      - VESPANA_METRICS_API=http://vespa-query:8080/metrics/v2/values
+    networks:
+      - vespa-network
+    depends_on:
+      - vespa-query

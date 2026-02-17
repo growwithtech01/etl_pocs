@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema name="catalog" version="1.0">
+
+  <uniqueKey>id</uniqueKey>
+
+  <fieldType name="string" class="solr.StrField"/>
+  <fieldType name="plong" class="solr.LongPointField"/>
+
+  <field name="id"
+         type="string"
+         indexed="true"
+         stored="true"
+         required="true"
+         multiValued="false"/>
+
+  <!-- REQUIRED for SolrCloud -->
+  <field name="_version_"
+         type="plong"
+         indexed="true"
+         stored="true"
+         docValues="true"
+         multiValued="false"/>
+
+</schema>

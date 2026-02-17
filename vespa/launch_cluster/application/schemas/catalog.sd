@@ -1,0 +1,29 @@
+schema catalog {
+
+    document catalog {
+
+        field id type string {
+            indexing: summary | attribute
+        }
+
+        field name type string {
+            indexing: summary | index
+        }
+
+        field category type string {
+            indexing: summary | attribute
+        }
+
+        field price type int {
+            indexing: summary | attribute
+        }
+
+        field brand type string {
+            indexing: summary | attribute
+        }
+    }
+
+    fieldset default {
+        fields: name
+    }
+}
